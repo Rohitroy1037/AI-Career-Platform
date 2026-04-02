@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Career Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080b12;--surface:#0e1320;--card:#131928;--card2:#181f30;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(245,158,11,0.35);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.10);--amber-glow:rgba(245,158,11,0.30);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.10);
+  --green:#34d399;--green-dim:rgba(52,211,153,0.10);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.10);
+  --violet:#a78bfa;--violet-dim:rgba(167,139,250,0.10);
+  --text:#e8eaf2;--text-mid:#8892aa;--text-dim:#525e78;
+  --r:14px;--r-sm:9px;--ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 5% 0%,rgba(245,158,11,.05) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 95% 100%,rgba(96,165,250,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+.wrap{display:flex;min-height:100vh;position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.logo{padding:28px 24px 24px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.logo-hex{width:38px;height:38px;background:var(--amber);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px var(--amber-glow)}
+.logo-hex svg{width:20px;height:20px;color:#080b12}
+.logo-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text);line-height:1.2}
+.logo-name span{color:var(--amber)}
+.logo-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:.12em;text-transform:uppercase}
+.nav{flex:1;padding:20px 12px;display:flex;flex-direction:column;gap:2px}
+.nav-group{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase;padding:12px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:var(--r-sm);cursor:pointer;font-size:13.5px;font-weight:500;color:var(--text-mid);border:1px solid transparent;transition:all .2s var(--ease)}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.nav-item.active{color:var(--amber);background:var(--amber-dim);border-color:var(--border-hi)}
+.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.nav-item.active .nav-icon{opacity:1}
+.nav-pip{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;font-family:'DM Mono',monospace;letter-spacing:.04em}
+.pip-amber{background:var(--amber);color:#080b12}
+.pip-green{background:var(--green);color:#080b12}
+.sidebar-foot{padding:18px;border-top:1px solid var(--border)}
+.online{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-mid)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* MAIN */
+.main{margin-left:260px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:20px 36px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;background:rgba(8,11,18,.85);backdrop-filter:blur(16px)}
+.topbar-left{display:flex;flex-direction:column;gap:2px}
+.topbar-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase}
+.topbar-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.badge{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:99px;letter-spacing:.05em}
+.badge-amber{background:var(--amber-dim);color:var(--amber);border:1px solid var(--border-hi)}
+.badge-blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,.25)}
+
+/* PANELS */
+.panel{display:none;padding:36px;animation:fadeUp .3s var(--ease)}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION HEADER */
+.sec-head{margin-bottom:28px}
+.sec-eye{font-family:'DM Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text);line-height:1.2}
+.sec-desc{font-size:13.5px;color:var(--text-mid);margin-top:8px;line-height:1.65;max-width:600px}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;transition:border-color .2s}
+.card:hover{border-color:rgba(255,255,255,.11)}
+.card-head{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* UPLOAD */
+.upload{border:2px dashed rgba(245,158,11,.2);border-radius:var(--r);padding:36px 20px;text-align:center;cursor:pointer;transition:all .2s var(--ease);background:var(--amber-dim);position:relative}
+.upload:hover,.upload.drag{border-color:var(--amber);background:rgba(245,158,11,.08)}
+.upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{width:48px;height:48px;background:rgba(245,158,11,.15);border:1px solid var(--border-hi);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.upload-icon svg{width:22px;height:22px;color:var(--amber)}
+.upload-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.upload-sub{font-size:12px;color:var(--text-mid)}
+.upload-fname{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);margin-top:10px;word-break:break-all}
+
+/* FORM */
+label{display:block;font-size:12px;font-weight:500;color:var(--text-mid);margin-bottom:7px;letter-spacing:.02em}
+textarea,input[type=text]{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;padding:12px 14px;resize:vertical;outline:none;transition:border-color .2s}
+textarea:focus,input[type=text]:focus{border-color:var(--amber)}
+textarea{min-height:130px;line-height:1.6}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 24px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;border:none;transition:all .2s var(--ease)}
+.btn-amber{background:var(--amber);color:#080b12}
+.btn-amber:hover{background:#fbbf24;box-shadow:0 0 24px var(--amber-glow);transform:translateY(-1px)}
+.btn-amber:active{transform:translateY(0)}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-mid)}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn-green{background:var(--green-dim);border:1px solid rgba(52,211,153,.3);color:var(--green)}
+.btn-green:hover{background:rgba(52,211,153,.18)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn svg{width:15px;height:15px;flex-shrink:0}
+.spinner{width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* METRICS */
+.metric{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px;position:relative;overflow:hidden;text-align:center}
+.metric::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.metric.amber::after{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.metric.blue::after{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.metric.green::after{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.metric.red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.metric.violet::after{background:linear-gradient(90deg,transparent,var(--violet),transparent)}
+.metric-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}
+.metric-val{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;line-height:1}
+.metric-val.amber{color:var(--amber);text-shadow:0 0 18px var(--amber-glow)}
+.metric-val.blue{color:var(--blue)}
+.metric-val.green{color:var(--green);text-shadow:0 0 18px rgba(52,211,153,.3)}
+.metric-val.red{color:var(--red)}
+.metric-val.violet{color:var(--violet)}
+.metric-sub{font-size:11px;color:var(--text-dim);margin-top:7px}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:14px}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prog-lbl{font-size:12.5px;color:var(--text-mid);font-weight:500}
+.prog-val{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber)}
+.prog-track{height:5px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.prog-fill.amber{background:var(--amber);box-shadow:0 0 8px var(--amber-glow)}
+.prog-fill.blue{background:var(--blue)}
+.prog-fill.green{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.3)}
+.prog-fill.red{background:var(--red)}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{font-family:'DM Mono',monospace;font-size:10.5px;padding:4px 10px;border-radius:6px;border:1px solid;letter-spacing:.02em;font-weight:500}
+.tag-amber{background:var(--amber-dim);border-color:rgba(245,158,11,.3);color:var(--amber)}
+.tag-blue{background:var(--blue-dim);border-color:rgba(96,165,250,.3);color:var(--blue)}
+.tag-green{background:var(--green-dim);border-color:rgba(52,211,153,.3);color:var(--green)}
+.tag-red{background:var(--red-dim);border-color:rgba(248,113,113,.3);color:var(--red)}
+.tag-violet{background:var(--violet-dim);border-color:rgba(167,139,250,.3);color:var(--violet)}
+
+/* BANNERS */
+.banner{border-radius:var(--r-sm);padding:14px 18px;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:12px;border:1px solid}
+.banner-green{background:var(--green-dim);border-color:rgba(52,211,153,.25);color:var(--green)}
+.banner-amber{background:var(--amber-dim);border-color:rgba(245,158,11,.25);color:var(--amber)}
+.banner-red{background:var(--red-dim);border-color:rgba(248,113,113,.25);color:var(--red)}
+
+/* ATS CHECKS */
+.ats-checks{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.ats-row{display:flex;align-items:center;gap:9px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;font-size:12.5px;color:var(--text-mid)}
+.chk{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chk-ok{background:var(--green-dim);color:var(--green)}
+.chk-fail{background:var(--red-dim);color:var(--red)}
+
+/* ISSUES */
+.issue{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;background:var(--red-dim);border:1px solid rgba(248,113,113,.2);border-radius:8px;font-size:12.5px;color:var(--red);margin-bottom:7px}
+
+/* SUGGESTIONS */
+.sugg{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--blue-dim);border:1px solid rgba(96,165,250,.2);border-radius:8px;font-size:13px;color:var(--blue);margin-bottom:7px}
+
+/* ROADMAP */
+.roadmap-list{display:flex;flex-direction:column}
+.rm-item{display:flex;gap:16px;padding-bottom:24px;position:relative}
+.rm-item:last-child{padding-bottom:0}
+.rm-item:not(:last-child)::before{content:'';position:absolute;left:9px;top:22px;width:1px;bottom:0;background:linear-gradient(to bottom,var(--amber),transparent)}
+.rm-dot{width:18px;height:18px;border-radius:50%;background:var(--amber-dim);border:2px solid var(--amber);flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 8px var(--amber-glow)}
+.rm-dot-in{width:5px;height:5px;border-radius:50%;background:var(--amber)}
+.rm-content{flex:1;padding-top:1px}
+.rm-step{font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.rm-skill{font-size:13.5px;font-weight:700;color:var(--amber);margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.rm-plan{font-size:13px;color:var(--text-mid);line-height:1.65;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+
+/* SMART SUGGESTIONS */
+.smart-msg{padding:14px 16px;background:var(--violet-dim);border:1px solid rgba(167,139,250,.2);border-radius:var(--r-sm);font-size:13px;color:var(--violet);line-height:1.6;margin-bottom:16px}
+
+/* MONO BOX */
+.mono-box{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px;font-family:'DM Mono',monospace;font-size:11.5px;color:var(--text-mid);white-space:pre-wrap;max-height:380px;overflow-y:auto;line-height:1.8}
+.mono-box::-webkit-scrollbar{width:3px}
+.mono-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+
+/* CHAT */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 230px);min-height:440px}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r) var(--r) 0 0}
+.chat-msgs::-webkit-scrollbar{width:3px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+.msg{max-width:78%;animation:msgIn .25s var(--ease)}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{align-self:flex-end}
+.msg.ai{align-self:flex-start}
+.msg-bubble{padding:12px 16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+.msg.user .msg-bubble{background:var(--amber);color:#080b12;font-weight:500;border-radius:12px 12px 4px 12px}
+.msg.ai .msg-bubble{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:4px 12px 12px 12px}
+.msg-time{font-size:10px;color:var(--text-dim);margin-top:4px;font-family:'DM Mono',monospace}
+.msg.user .msg-time{text-align:right}
+.chat-bar{display:flex;gap:10px;align-items:flex-end;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r)}
+.chat-input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;padding:11px 14px;resize:none;min-height:46px;max-height:110px;outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--amber)}
+.chat-send{width:44px;height:44px;border-radius:9px;background:var(--amber);color:#080b12;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.chat-send:hover{box-shadow:0 0 18px var(--amber-glow);transform:scale(1.04)}
+.chat-send:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:4px 12px 12px 12px;width:fit-content}
+.typing span{width:5px;height:5px;background:var(--text-mid);border-radius:50%;animation:typ 1.2s ease-in-out infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes typ{0%,80%,100%{transform:scale(1);opacity:.5}40%{transform:scale(1.3);opacity:1}}
+
+/* INTERVIEW */
+.iv-q-box{background:var(--card2);border:1px solid var(--border-hi);border-radius:var(--r);padding:28px 24px 24px;font-size:15px;color:var(--text);line-height:1.65;font-style:italic;position:relative}
+.iv-q-box::before{content:'"';font-family:'Playfair Display',serif;font-size:52px;color:var(--amber);opacity:.25;position:absolute;top:-4px;left:14px;line-height:1}
+.iv-feedback{background:var(--card2);border:1px solid rgba(52,211,153,.25);border-radius:var(--r);padding:20px;font-size:13.5px;color:var(--text-mid);line-height:1.7;white-space:pre-wrap}
+.iv-score{font-family:'DM Mono',monospace;font-size:42px;font-weight:500;color:var(--green);text-shadow:0 0 20px rgba(52,211,153,.35);text-align:center;padding:14px 0}
+
+/* ID BAR */
+.id-bar{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:14px}
+.id-bar svg{width:14px;height:14px;color:var(--text-dim);flex-shrink:0}
+.id-bar input{background:transparent;border:none;outline:none;color:var(--text);font-size:13px;flex:1;font-family:'DM Mono',monospace}
+.attach-btn{display:flex;align-items:center;gap:7px;padding:7px 12px;background:var(--amber-dim);border:1px solid var(--border-hi);border-radius:7px;font-size:11px;color:var(--amber);cursor:pointer;font-family:'DM Mono',monospace;transition:all .2s;white-space:nowrap}
+.attach-btn:hover{background:rgba(245,158,11,.18)}
+.attach-btn input{display:none}
+
+/* EMPTY */
+.empty{text-align:center;padding:50px 20px}
+.empty-ico{font-size:42px;opacity:.35;margin-bottom:14px}
+.empty-title{font-size:15px;color:var(--text-mid);margin-bottom:6px}
+.empty-sub{font-size:12px;color:var(--text-dim)}
+
+/* RESULTS */
+.results{margin-top:32px;display:flex;flex-direction:column;gap:18px}
+.results.hidden{display:none}
+.hidden{display:none}
+
+/* HELPERS */
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+.flex-between{display:flex;justify-content:space-between;align-items:center}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+
+@media(max-width:860px){
+  .sidebar{transform:translateX(-100%)}
+  .main{margin-left:0}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .panel{padding:20px 16px}
+  .ats-checks{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">
+      <div class="logo-hex">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div>
+        <div class="logo-name">AI <span>Career</span></div>
+        <div style="font-size:12px;color:var(--text-mid);font-family:'DM Sans',sans-serif">Intelligence Platform</div>
+      </div>
+    </div>
+    <div class="logo-tag">Powered by Rohit Roy</div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-group">Analysis</div>
+    <div class="nav-item active" data-tab="analyzer" data-title="Resume Analyzer">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Resume Analyzer
+      <span class="nav-pip pip-amber">AI</span>
+    </div>
+    <div class="nav-item" data-tab="roadmap" data-title="My CV Roadmap">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      My CV Roadmap
+    </div>
+    <div class="nav-item" data-tab="autofix" data-title="Auto Fix Resume">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Auto Fix Resume
+    </div>
+
+    <div class="nav-group" style="margin-top:6px">Career Tools</div>
+    <div class="nav-item" data-tab="interview" data-tag="// mock_interview" data-title="Mock Interview">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Mock Interview
+      <span class="nav-pip pip-green">NEW</span>
+    </div>
+    <div class="nav-item" data-tab="chatbot" data-tag="// ai_chat" data-title="AI Career Chatbot">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      AI Career Chatbot
+    </div>
+  </nav>
+
+  <div class="sidebar-foot">
+    <!-- <div class="online"><div class="dot"></div><span>Server running · localhost:8000</span></div> -->
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <!-- <div class="topbar-tag" id="topbar-tag">// analyze_resume</div> -->
+      <div class="topbar-title" id="topbar-title">Resume Analyzer</div>
+    </div>
+    <div class="topbar-right">
+      <!-- <div class="badge badge-blue">FastAPI · Python</div> -->
+      <!-- <div class="badge badge-amber">Llama3 · Local LLM</div> -->
+    </div>
+  </div>
+
+  <!-- ══ ANALYZER ══ -->
+  <div class="panel active" id="panel-analyzer">
+    <div class="sec-head">
+      <!-- <div class="sec-eye">// POST /analyze</div> -->
+      <div class="sec-title">Resume Intelligence Analyzer</div>
+      <div class="sec-desc">Upload your resume and paste a job description. Get match scores, ATS breakdown, skill gaps, smart suggestions, and a personalized roadmap.</div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <div class="upload" id="az-drop">
+          <input type="file" id="az-file" onchange="fileChange('az')"/>
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <div class="upload-title">Drop Resume Here</div>
+          <div class="upload-sub">PDF, DOCX, DOC, TXT — any format</div>
+          <div class="upload-fname" id="az-fname"></div>
+        </div>
+      </div>
+      <div>
+        <label>Job Description</label>
+        <textarea id="az-jd" placeholder="Paste the full job description here…"></textarea>
+      </div>
+    </div>
+    <div class="mt16">
+      <button class="btn btn-amber" id="az-btn" onclick="runAnalyze()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Analyze Resume
+      </button>
+    </div>
+
+    <div class="results hidden" id="az-results">
+      <div class="g4">
+        <div class="metric amber"><div class="metric-label">Match Score</div><div class="metric-val amber" id="az-match">—</div><div class="metric-sub">Keyword overlap</div></div>
+        <div class="metric blue"><div class="metric-label">Semantic Score</div><div class="metric-val blue" id="az-sem">—</div><div class="metric-sub">AI context match</div></div>
+        <div class="metric green"><div class="metric-label">ATS Score</div><div class="metric-val green" id="az-ats">—</div><div class="metric-sub">ATS compatibility</div></div>
+        <div class="metric violet"><div class="metric-label">Success %</div><div class="metric-val violet" id="az-success">—</div><div class="metric-sub">Predicted success</div></div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-head">📊 Score Breakdown</div>
+          <div class="prog-wrap">
+            <div class="prog-row"><span class="prog-lbl">Skills Score</span><span class="prog-val" id="az-sk-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill amber" id="az-sk-b" style="width:0%"></div></div>
+          </div>
+          <div class="prog-wrap">
+            <div class="prog-row"><span class="prog-lbl">Formatting Score</span><span class="prog-val" id="az-fm-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill blue" id="az-fm-b" style="width:0%"></div></div>
+          </div>
+          <div class="prog-wrap" style="margin-bottom:0">
+            <div class="prog-row"><span class="prog-lbl">Keyword Score</span><span class="prog-val" id="az-kw-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill green" id="az-kw-b" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">📋 ATS Sections Detected</div>
+          <div class="ats-checks" id="az-sections"></div>
+          <div class="mt12" id="az-issues"></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card">
+          <div class="card-head">💬 AI Feedback</div>
+          <div id="az-feedback"></div>
+          <div class="mt12">
+            <div class="card-head" style="margin-bottom:10px">💡 Improvement Suggestions</div>
+            <div id="az-suggestions"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">🤖 Smart AI Role Suggestions</div>
+          <div id="az-smart"></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="card"><div class="card-head">✅ Matched Keywords</div><div class="tags" id="az-matched"></div></div>
+        <div class="card"><div class="card-head">❌ Missing Keywords</div><div class="tags" id="az-missing"></div></div>
+      </div>
+      <div class="g2">
+        <div class="card"><div class="card-head">📄 Your Resume Skills</div><div class="tags" id="az-rskills"></div></div>
+        <div class="card"><div class="card-head">💼 Job Required Skills</div><div class="tags" id="az-jskills"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">🛤️ Learning Roadmap</div>
+        <div class="roadmap-list" id="az-roadmap"></div>
+      </div>
+      <div class="card">
+        <div class="flex-between mb8">
+          <div class="card-head" style="margin-bottom:0">🧠 ATS AI Suggestions <span style="font-size:9px;color:var(--text-dim)">(requires Ollama)</span></div>
+        </div>
+        <div class="mono-box" id="az-ats-ai">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CV ROADMAP ══ -->
+  <div class="panel" id="panel-roadmap">
+    <div class="sec-head">
+      <!-- <div class="sec-eye">// POST /cv-roadmap</div> -->
+      <div class="sec-title">My Personalized CV Roadmap</div>
+      <div class="sec-desc">Upload your CV and enter your target role. The AI analyses your current skills and builds a step-by-step learning roadmap specifically for you.</div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <div class="upload" id="rm-drop">
+          <input type="file" id="rm-file" onchange="fileChange('rm')"/>
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="upload-title">Upload Your CV</div>
+          <div class="upload-sub">PDF, DOCX, DOC, TXT — any format</div>
+          <div class="upload-fname" id="rm-fname"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label>Target Role / Job Description</label>
+          <textarea id="rm-jd" placeholder="e.g. Full Stack Developer, Data Scientist, DevOps Engineer…&#10;&#10;Or paste a full job description for a more precise roadmap." style="min-height:150px"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt16">
+      <button class="btn btn-amber" id="rm-btn" onclick="runRoadmap()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Generate My Roadmap
+      </button>
+    </div>
+
+    <div class="results hidden" id="rm-results">
+
+      <!-- scores -->
+      <div class="g4">
+        <div class="metric amber"><div class="metric-label">Match Score</div><div class="metric-val amber" id="rm-match">—</div><div class="metric-sub">Current alignment</div></div>
+        <div class="metric blue"><div class="metric-label">Semantic Score</div><div class="metric-val blue" id="rm-sem">—</div><div class="metric-sub">AI context fit</div></div>
+        <div class="metric green"><div class="metric-label">Success %</div><div class="metric-val green" id="rm-success">—</div><div class="metric-sub">Predicted success</div></div>
+        <div class="metric red"><div class="metric-label">Skills Gap</div><div class="metric-val red" id="rm-gap">—</div><div class="metric-sub">Skills to learn</div></div>
+      </div>
+
+      <!-- score breakdown -->
+      <div class="g2">
+        <div class="card">
+          <div class="card-head">📊 Score Breakdown</div>
+          <div class="prog-wrap">
+            <div class="prog-row"><span class="prog-lbl">Skills Score</span><span class="prog-val" id="rm-sk-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill amber" id="rm-sk-b" style="width:0%"></div></div>
+          </div>
+          <div class="prog-wrap">
+            <div class="prog-row"><span class="prog-lbl">Formatting Score</span><span class="prog-val" id="rm-fm-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill blue" id="rm-fm-b" style="width:0%"></div></div>
+          </div>
+          <div class="prog-wrap" style="margin-bottom:0">
+            <div class="prog-row"><span class="prog-lbl">Keyword Score</span><span class="prog-val" id="rm-kw-v">0%</span></div>
+            <div class="prog-track"><div class="prog-fill green" id="rm-kw-b" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">💬 AI Feedback</div>
+          <div id="rm-feedback"></div>
+          <div class="mt12">
+            <div class="card-head" style="margin-bottom:10px">💡 Suggestions</div>
+            <div id="rm-suggestions"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- skills -->
+      <div class="g2">
+        <div class="card"><div class="card-head">✅ Skills You Already Have</div><div class="tags" id="rm-have"></div></div>
+        <div class="card"><div class="card-head">🎯 Skills You Need to Learn</div><div class="tags" id="rm-need"></div></div>
+      </div>
+
+      <!-- roadmap — full width, most prominent -->
+      <div class="card">
+        <div class="card-head" style="font-size:11px">🛤️ Your Personalized Step-by-Step Learning Roadmap</div>
+        <div class="roadmap-list" id="rm-roadmap"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ AUTO FIX ══ -->
+  <div class="panel" id="panel-autofix">
+    <div class="sec-head">
+      <!-- <div class="sec-eye">// POST /auto-fix</div> -->
+      <div class="sec-title">Auto Fix Resume</div>
+      <div class="sec-desc">Upload your resume and a target job description. Our AI will rewrite and optimize it for maximum ATS compatibility.</div>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="upload" id="fx-drop">
+          <input type="file" id="fx-file" onchange="fileChange('fx')"/>
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+          <div class="upload-title">Upload Resume</div>
+          <div class="upload-sub">Any format accepted</div>
+          <div class="upload-fname" id="fx-fname"></div>
+        </div>
+      </div>
+      <div>
+        <label>Target Job Description</label>
+        <textarea id="fx-jd" placeholder="Paste the job description you're applying to…"></textarea>
+      </div>
+    </div>
+    <div class="mt16">
+      <button class="btn btn-amber" id="fx-btn" onclick="runFix()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Fix My Resume
+      </button>
+    </div>
+    <div class="results hidden" id="fx-results">
+      <div class="card">
+        <div class="flex-between mb8">
+          <div class="card-head" style="margin-bottom:0">🚀 Optimized Resume</div>
+          <button class="btn btn-ghost" onclick="downloadFixed()" style="padding:8px 16px;font-size:12px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+          </button>
+        </div>
+        <div class="mono-box" id="fx-output"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MOCK INTERVIEW ══ -->
+  <div class="panel" id="panel-interview">
+    <div class="sec-head">
+      <!-- <div class="sec-eye">// POST /interview/question · /interview/evaluate</div> -->
+      <div class="sec-title">Mock Interview</div>
+      <div class="sec-desc">Practice with AI-generated questions for any role. Get scored feedback and model answers after each response.</div>
+    </div>
+    <div class="g2" style="align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-head">🎯 Set Your Role</div>
+          <label>Target Role</label>
+          <input type="text" id="iv-role" placeholder="e.g. Backend Developer, Data Scientist…"/>
+          <div class="mt12">
+            <button class="btn btn-amber" id="iv-q-btn" onclick="getQuestion()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Get Interview Question
+            </button>
+          </div>
+        </div>
+        <div class="card hidden" id="iv-answer-block">
+          <div class="card-head">✍️ Your Answer</div>
+          <textarea id="iv-answer" placeholder="Type your answer here… (copy-paste is disabled — you must type your own answer)" style="min-height:150px" onpaste="return blockPaste(event)" ondrop="return false" autocomplete="off" autocorrect="off" spellcheck="true"></textarea>
+          <div class="mt12">
+            <button class="btn btn-green" id="iv-eval-btn" onclick="evaluateAnswer()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Submit for Evaluation
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card hidden" id="iv-question-block">
+          <div class="card-head">❓ Interview Question</div>
+          <div class="iv-q-box" id="iv-question-text" style="padding-top:34px"></div>
+          <div class="mt12" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace">Write your answer in the panel on the left ←</div>
+        </div>
+        <div class="card hidden" id="iv-feedback-block">
+          <div class="card-head">📝 AI Evaluation</div>
+          <div class="iv-score" id="iv-score"></div>
+          <div class="iv-feedback" id="iv-feedback"></div>
+          <div class="mt16">
+            <button class="btn btn-amber" onclick="getQuestion()" style="font-size:12px;padding:10px 20px">Next Question →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CHATBOT ══ -->
+  <div class="panel" id="panel-chatbot">
+    <div class="sec-head">
+      <!-- <div class="sec-eye">// POST /ai-chat</div> -->
+      <div class="sec-title">AI Career Advisor</div>
+      <div class="sec-desc">Chat with your personal AI career mentor. Optionally attach your resume for context-aware advice.</div>
+    </div>
+    <div class="id-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <input type="text" id="chat-uid" placeholder="User ID (e.g. rohit)" value="default"/>
+      <label class="attach-btn">
+        <input type="file" id="chat-resume" onchange="chatResume()"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        <span id="chat-attach-lbl">Attach Resume</span>
+      </label>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="empty">
+          <div class="empty-ico">🤖</div>
+          <div class="empty-title">AI Career Mentor is ready</div>
+          <div class="empty-sub">Ask about career paths, resume tips, salary negotiation, interview prep, and more.</div>
+        </div>
+      </div>
+      <div class="chat-bar">
+        <textarea class="chat-input" id="chat-input" placeholder="Ask anything about your career…" rows="1" onkeydown="chatKey(event)"></textarea>
+        <button class="chat-send" id="chat-send" onclick="sendChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;color:#080b12"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── FILES STORE ──
+const FILES = {};
+
+// ── NAV SWITCH ──
+document.querySelectorAll('.nav-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('panel-' + el.dataset.tab).classList.add('active');
+    document.getElementById('topbar-tag').textContent   = el.dataset.tag;
+    document.getElementById('topbar-title').textContent = el.dataset.title;
+  });
+});
+
+// ── FILE CHANGE ──
+function fileChange(key) {
+  const inp = document.getElementById(key + '-file');
+  if (inp.files[0]) {
+    FILES[key] = inp.files[0];
+    document.getElementById(key + '-fname').textContent = '📎 ' + inp.files[0].name;
+  }
+}
+
+function chatResume() {
+  const f = document.getElementById('chat-resume').files[0];
+  if (f) { FILES.chat = f; document.getElementById('chat-attach-lbl').textContent = f.name; }
+}
+
+// Drag-drop
+['az-drop','rm-drop','fx-drop'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const key = id.split('-')[0];
+  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag'); });
+  el.addEventListener('dragleave', () => el.classList.remove('drag'));
+  el.addEventListener('drop', e => {
+    e.preventDefault(); el.classList.remove('drag');
+    const f = e.dataTransfer.files[0];
+    if (f) { FILES[key] = f; document.getElementById(key + '-fname').textContent = '📎 ' + f.name; }
+  });
+});
+
+// ── LOADING ──
+function setLoad(id, on) {
+  const b = document.getElementById(id);
+  b.disabled = on;
+  if (on) { b._html = b.innerHTML; b.innerHTML = '<div class="spinner"></div> Processing…'; }
+  else b.innerHTML = b._html;
+}
+
+// ── RENDER HELPERS ──
+function tags(arr, cls) {
+  if (!arr || !arr.length) return '<span style="color:var(--text-dim);font-size:12px">None detected</span>';
+  return arr.map(s => `<span class="tag ${cls}">${s}</span>`).join('');
+}
+
+const ICONS = ['📚','🛠️','🚀','💡','🎯','🔥','⚡','🌟','🧩','📐','🗺️','🎓'];
+
+function roadmapHtml(items) {
+  if (!items || !items.length)
+    return '<div style="color:var(--green);font-size:13.5px;padding:12px 0">🎉 You already have all required skills for this role!</div>';
+
+  const missing = items.filter(r => r.status !== 'have' || r.plan);
+  const have    = items.filter(r => r.status === 'have' && !r.plan);
+  const priorityColor = { critical: '#f87171', important: '#fbbf24', 'nice-to-have': '#60a5fa' };
+  const priorityLabel = { critical: '🔴 Critical', important: '🟡 Important', 'nice-to-have': '🔵 Nice to have' };
+
+  let html = '';
+  const focusItems = missing.filter(r => r.focus_first);
+  if (focusItems.length) {
+    html += `<div style="font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:8px 12px;background:rgba(248,113,113,.08);border-left:3px solid #f87171;border-radius:4px">⚡ Focus on these first — highest impact for this role</div>`;
+  }
+
+  let stepNum = 0;
+  html += missing.map(r => {
+    if (r.status === 'have' && !r.plan) return '';
+    stepNum++;
+    const pColor = priorityColor[r.priority] || '#60a5fa';
+    const pLabel = priorityLabel[r.priority] || r.priority || '';
+    const focusBadge = r.focus_first
+      ? `<span style="background:rgba(248,113,113,.15);color:#f87171;font-size:10px;padding:2px 8px;border-radius:20px;margin-left:8px;font-weight:600">FOCUS FIRST</span>`
+      : '';
+    const missingCount = missing.filter(x => x.status !== 'have' || x.plan).length;
+    const steps = (r.plan || '').split(' → ').filter(Boolean);
+    const stepsHtml = steps.length > 1
+      ? `<ol style="margin:8px 0 0 0;padding-left:18px;font-size:12.5px;color:var(--text-mid);line-height:1.8">${steps.map(s => `<li>${s}</li>`).join('')}</ol>`
+      : `<div class="rm-plan" style="margin-top:6px">${r.plan || ''}</div>`;
+    return `
+      <div class="rm-item" style="${r.focus_first ? 'border-left:3px solid #f87171;padding-left:14px' : ''}">
+        <div class="rm-dot" style="background:${pColor}20;border-color:${pColor}"><div class="rm-dot-in" style="background:${pColor}"></div></div>
+        <div class="rm-content">
+          <div class="rm-step" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span>Skill ${stepNum} of ${missingCount}</span>
+            <span style="color:${pColor};font-size:10px">${pLabel}</span>
+            ${focusBadge}
+          </div>
+          <div class="rm-skill">${ICONS[stepNum % ICONS.length]} ${r.skill || r.focus || ''}</div>
+          ${r.importance_reason ? `<div style="font-size:12px;color:var(--text-dim);margin-top:4px;font-style:italic">💡 ${r.importance_reason}</div>` : ''}
+          ${stepsHtml}
+        </div>
+      </div>`;
+  }).join('');
+
+  if (have.length) {
+    html += `<div style="margin-top:18px;font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">✅ Skills you already have</div>`;
+    html += `<div class="tags">${have.map(r => `<span class="tag tag-green">✓ ${r.skill}</span>`).join('')}</div>`;
+  }
+  return html;
+}
+
+function feedbackBanner(fb) {
+  if (!fb) return '';
+  let cls = 'banner-green';
+  if (fb.includes('⚠️') || fb.toLowerCase().includes('improve')) cls = 'banner-amber';
+  if (fb.toLowerCase().includes('poor') || fb.toLowerCase().includes('low')) cls = 'banner-red';
+  return `<div class="banner ${cls}">${fb}</div>`;
+}
+
+function suggHtml(arr) {
+  if (!arr || !arr.length) return '<div style="color:var(--text-dim);font-size:12px">No suggestions</div>';
+  return arr.map(s => `<div class="sugg">→ ${s}</div>`).join('');
+}
+
+function setBar(barId, valId, pct) {
+  setTimeout(() => {
+    document.getElementById(barId).style.width = Math.min(pct, 100) + '%';
+    document.getElementById(valId).textContent = Math.round(pct) + '%';
+  }, 80);
+}
+
+function sectionsHtml(secs) {
+  return Object.entries(secs || {}).map(([k, v]) =>
+    `<div class="ats-row">
+      <div class="chk ${v ? 'chk-ok' : 'chk-fail'}">
+        ${v
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><polyline points="20 6 9 17 4 12"/></svg>'
+          : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:9px;height:9px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+      </div>
+      <span style="text-transform:capitalize">${k}</span>
+    </div>`
+  ).join('');
+}
+
+function now() { return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
+
+// ── ANALYZE ──────────────────────────────────────────────────────────────────
+async function runAnalyze() {
+  if (!FILES.az) { alert('Please upload a resume.'); return; }
+  const jd = document.getElementById('az-jd').value.trim();
+  if (!jd) { alert('Please enter a job description.'); return; }
+
+  setLoad('az-btn', true);
+  document.getElementById('az-results').classList.add('hidden');
+
+  const fd = new FormData();
+  fd.append('file', FILES.az);
+  fd.append('job_description', jd);
+
+  try {
+    const r = await fetch('/analyze', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    renderAnalyze(await r.json());
+    document.getElementById('az-results').classList.remove('hidden');
+    document.getElementById('az-results').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(e) { alert('Error: ' + e.message); }
+  finally { setLoad('az-btn', false); }
+}
+
+function renderAnalyze(d) {
+  const a   = d.analysis || {};
+  const ats = d.ats_analysis || {};
+  const bd  = d.score_breakdown || {};
+
+  // Metrics
+  document.getElementById('az-match').textContent   = (parseFloat(a.match_score) || 0).toFixed(1);
+  document.getElementById('az-sem').textContent     = (parseFloat(d.semantic_score) || 0).toFixed(1);
+  document.getElementById('az-ats').textContent     = (parseFloat(ats.ats_score) || 0).toFixed(1);
+  document.getElementById('az-success').textContent = (d.success_probability || 0) + '%';
+
+  // Bars
+  setBar('az-sk-b', 'az-sk-v', bd.skills_score || 0);
+  setBar('az-fm-b', 'az-fm-v', bd.formatting_score || 0);
+  setBar('az-kw-b', 'az-kw-v', bd.keyword_score || 0);
+
+  // ATS
+  document.getElementById('az-sections').innerHTML = sectionsHtml(ats.sections);
+  const issues = ats.issues || [];
+  document.getElementById('az-issues').innerHTML = issues.length
+    ? issues.map(i => `<div class="issue"><span>⚠</span>${i}</div>`).join('')
+    : '<div style="color:var(--green);font-size:12.5px">✓ No major issues detected</div>';
+
+  // Feedback & suggestions
+  document.getElementById('az-feedback').innerHTML    = feedbackBanner(d.feedback);
+  document.getElementById('az-suggestions').innerHTML = suggHtml(d.suggestions);
+
+  // Smart suggestions
+  const sm = d.smart_suggestions || {};
+  let sh = '';
+  if (sm.message) sh += `<div class="smart-msg">${sm.message}</div>`;
+  if (sm.required_skills && sm.required_skills.length)
+    sh += `<div style="font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Required</div><div class="tags mb12">${sm.required_skills.map(s => `<span class="tag tag-amber">${s}</span>`).join('')}</div>`;
+  if (sm.missing_skills && sm.missing_skills.length)
+    sh += `<div style="font-size:10px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;margin-top:10px">Gaps</div><div class="tags">${sm.missing_skills.map(s => `<span class="tag tag-red">${s}</span>`).join('')}</div>`;
+  if (!sh) sh = '<div style="color:var(--text-dim);font-size:12px">Unavailable — requires Ollama running</div>';
+  document.getElementById('az-smart').innerHTML = sh;
+
+  // Skills
+  document.getElementById('az-matched').innerHTML  = tags(ats.matched_keywords, 'tag-green');
+  document.getElementById('az-missing').innerHTML  = tags(ats.missing_keywords, 'tag-red');
+  document.getElementById('az-rskills').innerHTML  = tags(d.resume_skills, 'tag-blue');
+  document.getElementById('az-jskills').innerHTML  = tags(d.job_skills, 'tag-amber');
+
+  // Roadmap
+  document.getElementById('az-roadmap').innerHTML  = roadmapHtml(d.roadmap);
+
+  // ATS AI
+  document.getElementById('az-ats-ai').textContent = d.ats_ai_suggestions || 'Requires Ollama + llama3 running locally.';
+}
+
+// ── CV ROADMAP — uses dedicated /cv-roadmap endpoint ─────────────────────────
+async function runRoadmap() {
+  if (!FILES.rm) { alert('Please upload your CV.'); return; }
+  const jd = document.getElementById('rm-jd').value.trim();
+  if (!jd) { alert('Please enter your target role or job description.'); return; }
+
+  setLoad('rm-btn', true);
+  document.getElementById('rm-results').classList.add('hidden');
+
+  const fd = new FormData();
+  fd.append('file', FILES.rm);
+  fd.append('target_role', jd);          // ← /cv-roadmap uses target_role field
+
+  try {
+    const r = await fetch('/cv-roadmap', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    renderRoadmap(await r.json());
+    document.getElementById('rm-results').classList.remove('hidden');
+    document.getElementById('rm-results').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(e) { alert('Error: ' + e.message); }
+  finally { setLoad('rm-btn', false); }
+}
+
+function renderRoadmap(d) {
+  const bd = d.score_breakdown || {};
+
+  // Metrics
+  document.getElementById('rm-match').textContent   = (parseFloat(d.match_score) || 0).toFixed(1);
+  document.getElementById('rm-sem').textContent     = (parseFloat(d.semantic_score) || 0).toFixed(1);
+  document.getElementById('rm-success').textContent = (parseFloat(d.success_probability) || 0) + '%';
+  document.getElementById('rm-gap').textContent     = (d.missing_skills || []).length;
+
+  // Score bars
+  setBar('rm-sk-b', 'rm-sk-v', bd.skills_score || 0);
+  setBar('rm-fm-b', 'rm-fm-v', bd.formatting_score || 0);
+  setBar('rm-kw-b', 'rm-kw-v', bd.keyword_score || 0);
+
+  // Feedback & suggestions
+  document.getElementById('rm-feedback').innerHTML    = feedbackBanner(d.feedback);
+  document.getElementById('rm-suggestions').innerHTML = suggHtml(d.suggestions);
+
+  // Skills
+  document.getElementById('rm-have').innerHTML = tags(d.matched_skills || [], 'tag-green');
+  document.getElementById('rm-need').innerHTML = tags(d.missing_skills || [], 'tag-red');
+
+  // Roadmap — the main focus
+  document.getElementById('rm-roadmap').innerHTML = roadmapHtml(d.roadmap);
+}
+
+// ── AUTO FIX ─────────────────────────────────────────────────────────────────
+let fixedText = '';
+
+async function runFix() {
+  if (!FILES.fx) { alert('Please upload a resume.'); return; }
+  const jd = document.getElementById('fx-jd').value.trim();
+  if (!jd) { alert('Please enter a job description.'); return; }
+
+  setLoad('fx-btn', true);
+  document.getElementById('fx-results').classList.add('hidden');
+
+  const fd = new FormData();
+  fd.append('file', FILES.fx);
+  fd.append('job_description', jd);
+
+  try {
+    const r = await fetch('/auto-fix', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    const d = await r.json();
+    fixedText = d.fixed_resume || '';
+    document.getElementById('fx-output').textContent = fixedText;
+    document.getElementById('fx-results').classList.remove('hidden');
+    document.getElementById('fx-results').scrollIntoView({ behavior:'smooth' });
+  } catch(e) { alert('Error: ' + e.message); }
+  finally { setLoad('fx-btn', false); }
+}
+
+async function downloadFixed() {
+  if (!fixedText) {
+    alert("No resume to download");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("resume_text", fixedText);
+
+  try {
+    const response = await fetch("/download-resume", {
+      method: "POST",
+      body: formData
+    });
+
+    const blob = await response.blob(); // 🔥 VERY IMPORTANT
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "resume.pdf";  // ✅ force PDF
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+  } catch (err) {
+    alert("Download failed");
+  }
+}
+
+// ── MOCK INTERVIEW ────────────────────────────────────────────────────────────
+let currentQ = '';
+
+// Block paste in answer textarea
+function blockPaste(e) {
+  e.preventDefault();
+  const box = document.getElementById('iv-answer');
+  box.style.border = '2px solid #f87171';
+  box.style.boxShadow = '0 0 8px rgba(248,113,113,0.4)';
+  // Show inline warning
+  let warn = document.getElementById('paste-warn');
+  if (!warn) {
+    warn = document.createElement('div');
+    warn.id = 'paste-warn';
+    warn.style.cssText = 'color:#f87171;font-size:12px;margin-top:6px;font-weight:500;';
+    box.parentNode.insertBefore(warn, box.nextSibling);
+  }
+  warn.textContent = '⛔ Copy-paste is disabled. You must type your own answer — pasting will result in 0/10.';
+  setTimeout(() => {
+    box.style.border = '';
+    box.style.boxShadow = '';
+  }, 2000);
+  return false;
+}
+
+async function getQuestion() {
+  const role = document.getElementById('iv-role').value.trim();
+  if (!role) { alert('Please enter a target role.'); return; }
+
+  setLoad('iv-q-btn', true);
+  document.getElementById('iv-feedback-block').classList.add('hidden');
+  document.getElementById('iv-answer').value = '';
+
+  const fd = new FormData();
+  fd.append('role', role);
+
+  try {
+    const r = await fetch('/interview/question', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    const d = await r.json();
+    currentQ = d.question || '';
+    document.getElementById('iv-question-text').textContent = currentQ;
+    document.getElementById('iv-question-block').classList.remove('hidden');
+    document.getElementById('iv-answer-block').classList.remove('hidden');
+  } catch(e) { alert('Error: ' + e.message); }
+  finally { setLoad('iv-q-btn', false); }
+}
+
+async function evaluateAnswer() {
+  const answer = document.getElementById('iv-answer').value.trim();
+  const role   = document.getElementById('iv-role').value.trim();
+  if (!answer) { alert('Please write your answer first.'); return; }
+
+  setLoad('iv-eval-btn', true);
+
+  const fd = new FormData();
+  fd.append('role', role);
+  fd.append('question', currentQ);
+  fd.append('answer', answer);
+
+  try {
+    const r = await fetch('/interview/evaluate', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    const d = await r.json();
+    const fb = d.feedback || '';
+
+    // Extract score — matches "Score: X/10" or bare "X/10"
+    const m = fb.match(/Score[:\s]*(\d+)\s*\/\s*10/i) || fb.match(/(\d+)\s*\/\s*10/);
+    const scoreVal = m ? parseInt(m[1]) : null;
+
+    // Colour-code the score
+    let scoreColor = '#34d399'; // green
+    if (scoreVal !== null) {
+      if (scoreVal <= 3) scoreColor = '#f87171';
+      else if (scoreVal <= 6) scoreColor = '#fbbf24';
+    }
+
+    // Render score
+    const scoreEl = document.getElementById('iv-score');
+    scoreEl.textContent = m ? m[0].replace(/Score[:\s]*/i, '') : '';
+    scoreEl.style.color = scoreColor;
+    scoreEl.style.textShadow = `0 0 20px ${scoreColor}55`;
+
+    // Render feedback as structured sections (bold section headers)
+    const rendered = fb
+      .replace(/^Score:.*$/im, '')               // remove score line (shown separately)
+      .replace(/^(Strengths|Weaknesses|What a Strong Answer Looks Like|Tip to Improve):/gim,
+               '<strong style="color:var(--green);display:block;margin-top:12px;font-size:12px;letter-spacing:.05em;text-transform:uppercase">$1</strong>')
+      .trim();
+
+    const fbEl = document.getElementById('iv-feedback');
+    fbEl.innerHTML = rendered;
+
+    document.getElementById('iv-feedback-block').classList.remove('hidden');
+    document.getElementById('iv-feedback-block').scrollIntoView({ behavior:'smooth' });
+  } catch(e) { alert('Error: ' + e.message); }
+  finally { setLoad('iv-eval-btn', false); }
+}
+
+// ── CHATBOT ───────────────────────────────────────────────────────────────────
+function addMsg(text, role) {
+  const c = document.getElementById('chat-msgs');
+  const empty = c.querySelector('.empty');
+  if (empty) empty.remove();
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  d.innerHTML = `<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now()}</div>`;
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function addTyping() {
+  const c = document.getElementById('chat-msgs');
+  const d = document.createElement('div');
+  d.className = 'msg ai'; d.id = 'typing';
+  d.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+function removeTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
+function chatKey(e) { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  const uid = document.getElementById('chat-uid').value.trim() || 'default';
+
+  addMsg(text, 'user');
+  input.value = '';
+  document.getElementById('chat-send').disabled = true;
+  addTyping();
+
+  const fd = new FormData();
+  fd.append('user_input', text);
+  fd.append('user_id', uid);
+  if (FILES.chat) fd.append('file', FILES.chat);
+
+  try {
+    const r = await fetch('/ai-chat', { method:'POST', body:fd });
+    if (!r.ok) throw new Error('Server error ' + r.status);
+    removeTyping();
+    addMsg((await r.json()).response || 'No response.', 'ai');
+  } catch(e) {
+    removeTyping();
+    addMsg('⚠️ Could not reach AI backend. Make sure the server is running.', 'ai');
+  } finally {
+    document.getElementById('chat-send').disabled = false;
+  }
+}
+</script>
+</body>
+</html>

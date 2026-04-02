@@ -1,0 +1,22 @@
+{
+  "skills": [
+    "python", "r", "sql", "nosql", "java", "javascript", "typescript", "c++", "c#", "go", "rust", "scala", "kotlin", "swift", "php", "ruby", "bash", "shell scripting", "powershell",
+    "machine learning", "deep learning", "natural language processing", "computer vision", "reinforcement learning", "transfer learning", "supervised learning", "unsupervised learning", "semi-supervised learning", "feature engineering", "model deployment", "mlops",
+    "data analysis", "data science", "data engineering", "data visualization", "data wrangling", "data cleaning", "data mining", "data modeling", "statistical analysis", "exploratory data analysis", "a/b testing", "hypothesis testing",
+    "pandas", "numpy", "scipy", "matplotlib", "seaborn", "plotly", "scikit-learn", "xgboost", "lightgbm", "catboost", "statsmodels",
+    "tensorflow", "pytorch", "keras", "hugging face", "transformers", "bert", "gpt", "llm", "langchain", "openai",
+    "excel", "power bi", "tableau", "looker", "google data studio", "qlik", "dax", "powerpoint",
+    "sql server", "mysql", "postgresql", "sqlite", "oracle", "mongodb", "cassandra", "redis", "elasticsearch", "dynamodb", "firebase", "supabase",
+    "spark", "hadoop", "kafka", "airflow", "dbt", "databricks", "snowflake", "redshift", "bigquery", "hive", "flink",
+    "aws", "azure", "google cloud", "gcp", "docker", "kubernetes", "terraform", "ansible", "ci/cd", "jenkins", "github actions", "gitlab ci", "devops", "cloud computing", "serverless",
+    "react", "angular", "vue", "next.js", "node.js", "express", "django", "flask", "fastapi", "spring boot", "rest api", "graphql", "html", "css", "tailwind", "bootstrap",
+    "git", "github", "gitlab", "bitbucket", "jira", "agile", "scrum", "kanban", "linux", "unix",
+    "statistics", "mathematics", "linear algebra", "calculus", "probability", "regression", "classification", "clustering", "time series", "forecasting", "optimization", "bayesian",
+    "communication", "problem solving", "critical thinking", "teamwork", "leadership", "project management", "presentation skills", "stakeholder management",
+    "cybersecurity", "networking", "api design", "microservices", "system design", "object oriented programming", "functional programming", "data structures", "algorithms",
+    "prompt engineering", "rag", "vector database", "pinecone", "weaviate", "chroma", "fine-tuning", "embedding",
+    "opencv", "pillow", "yolo", "image processing", "ocr", "tesseract",
+    "selenium", "playwright", "web scraping", "beautifulsoup", "scrapy",
+    "excel vba", "google sheets", "microsoft office", "sap", "salesforce", "crm"
+  ]
+}
