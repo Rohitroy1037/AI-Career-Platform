@@ -1,5 +1,5 @@
 """
-smart_skills.py — 3-layer skill extraction
+smart_skills.py — 3-layer skill extraction (no spacy — Vercel compatible)
 Layer 1: Static database (skills.json)
 Layer 2: Synonym expansion
 Layer 3: Groq AI-powered extraction
@@ -19,17 +19,22 @@ skill_map = {
 
 
 def load_skills():
-    try:
-        with open("data/skills.json", "r") as f:
-            return json.load(f)["skills"]
-    except Exception:
-        base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        with open(os.path.join(base, "data", "skills.json"), "r") as f:
-            return json.load(f)["skills"]
+    # Try multiple paths — works locally and on Vercel
+    candidates = [
+        "data/skills.json",
+        os.path.join(os.path.dirname(__file__), "../../../data/skills.json"),
+        os.path.join(os.path.dirname(__file__), "../../data/skills.json"),
+    ]
+    for path in candidates:
+        try:
+            with open(os.path.abspath(path), "r") as f:
+                return json.load(f)["skills"]
+        except Exception:
+            continue
+    return []
 
 
 def _groq_extract_skills(text: str) -> list:
-    """Groq se AI-powered skill extraction."""
     prompt = f"""Extract ALL technical and professional skills from the text below.
 
 TEXT:
@@ -37,13 +42,14 @@ TEXT:
 
 Rules:
 - Extract every skill, tool, technology, framework, programming language, and soft skill mentioned.
-- Include skills implied by the role description even if not explicitly named.
-- Return ONLY a JSON array of skill strings, all lowercase.
+- Include skills implied by the role even if not explicitly named.
+- Return ONLY a JSON array of lowercase skill strings.
 - Example: ["python", "machine learning", "sql", "communication"]
-- Output ONLY the JSON array. No explanation, no markdown, nothing else."""
+- Output ONLY the JSON array. Nothing else."""
 
     try:
-        raw = call_groq(prompt, max_tokens=500, system="You are a skill extraction expert. Output only valid JSON.")
+        raw = call_groq(prompt, max_tokens=500,
+                        system="You are a skill extraction expert. Output only valid JSON arrays.")
         start, end = raw.find("["), raw.rfind("]")
         if start != -1 and end != -1:
             skills = json.loads(raw[start:end + 1])

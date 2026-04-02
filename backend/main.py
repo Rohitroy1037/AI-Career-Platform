@@ -44,7 +44,11 @@ FRONTEND_DIR = BASE_DIR / "frontend"
 STATIC_DIR = FRONTEND_DIR / "static"
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# Mount static files only if directory has content (skip on Vercel if empty)
+try:
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+except Exception:
+    pass
 # ─────────────────────────────────────────────────────────────────────────────
 
 init_db()
@@ -69,7 +73,16 @@ def generate_feedback(match_score, semantic_score):
 # ✅ Step 3: Home route — serves frontend UI
 @app.get("/", response_class=HTMLResponse)
 def home():
-    return (FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
+    # Try multiple paths to find index.html (local dev + Vercel)
+    candidates = [
+        FRONTEND_DIR / "index.html",
+        Path(__file__).resolve().parent.parent / "frontend" / "index.html",
+        Path("frontend/index.html"),
+    ]
+    for p in candidates:
+        if p.exists():
+            return p.read_text(encoding="utf-8")
+    return "<h1>AI Career Platform API is running. Frontend not found.</h1>"
 
 # ✅ Step 4: Main API
 @app.post("/analyze")

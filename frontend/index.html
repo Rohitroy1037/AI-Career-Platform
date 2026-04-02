@@ -272,21 +272,21 @@ textarea{min-height:130px;line-height:1.6}
         <div style="font-size:12px;color:var(--text-mid);font-family:'DM Sans',sans-serif">Intelligence Platform</div>
       </div>
     </div>
-    <div class="logo-tag">Powered by Rohit Roy</div>
+    <div class="logo-tag">v2.0 · Powered by Llama3</div>
   </div>
 
   <nav class="nav">
     <div class="nav-group">Analysis</div>
-    <div class="nav-item active" data-tab="analyzer" data-title="Resume Analyzer">
+    <div class="nav-item active" data-tab="analyzer" data-tag="// analyze_resume" data-title="Resume Analyzer">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Resume Analyzer
       <span class="nav-pip pip-amber">AI</span>
     </div>
-    <div class="nav-item" data-tab="roadmap" data-title="My CV Roadmap">
+    <div class="nav-item" data-tab="roadmap" data-tag="// POST /cv-roadmap" data-title="My CV Roadmap">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       My CV Roadmap
     </div>
-    <div class="nav-item" data-tab="autofix" data-title="Auto Fix Resume">
+    <div class="nav-item" data-tab="autofix" data-tag="// auto_fix_resume" data-title="Auto Fix Resume">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       Auto Fix Resume
     </div>
@@ -304,7 +304,7 @@ textarea{min-height:130px;line-height:1.6}
   </nav>
 
   <div class="sidebar-foot">
-    <!-- <div class="online"><div class="dot"></div><span>Server running · localhost:8000</span></div> -->
+    <div class="online"><div class="dot"></div><span>Server running · localhost:8000</span></div>
   </div>
 </aside>
 
@@ -312,19 +312,19 @@ textarea{min-height:130px;line-height:1.6}
 <main class="main">
   <div class="topbar">
     <div class="topbar-left">
-      <!-- <div class="topbar-tag" id="topbar-tag">// analyze_resume</div> -->
+      <div class="topbar-tag" id="topbar-tag">// analyze_resume</div>
       <div class="topbar-title" id="topbar-title">Resume Analyzer</div>
     </div>
     <div class="topbar-right">
-      <!-- <div class="badge badge-blue">FastAPI · Python</div> -->
-      <!-- <div class="badge badge-amber">Llama3 · Local LLM</div> -->
+      <div class="badge badge-blue">FastAPI · Python</div>
+      <div class="badge badge-amber">Llama3 · Local LLM</div>
     </div>
   </div>
 
   <!-- ══ ANALYZER ══ -->
   <div class="panel active" id="panel-analyzer">
     <div class="sec-head">
-      <!-- <div class="sec-eye">// POST /analyze</div> -->
+      <div class="sec-eye">// POST /analyze</div>
       <div class="sec-title">Resume Intelligence Analyzer</div>
       <div class="sec-desc">Upload your resume and paste a job description. Get match scores, ATS breakdown, skill gaps, smart suggestions, and a personalized roadmap.</div>
     </div>
@@ -422,9 +422,9 @@ textarea{min-height:130px;line-height:1.6}
   <!-- ══ CV ROADMAP ══ -->
   <div class="panel" id="panel-roadmap">
     <div class="sec-head">
-      <!-- <div class="sec-eye">// POST /cv-roadmap</div> -->
+      <div class="sec-eye">// POST /cv-roadmap</div>
       <div class="sec-title">My Personalized CV Roadmap</div>
-      <div class="sec-desc">Upload your CV and enter your target role. The AI analyses your current skills and builds a step-by-step learning roadmap specifically for you.</div>
+      <div class="sec-desc">Upload your CV and enter your target role. The AI analyses your current skills and builds a step-by-step learning roadmap specifically for you — no Ollama required.</div>
     </div>
 
     <div class="g2">
@@ -507,9 +507,9 @@ textarea{min-height:130px;line-height:1.6}
   <!-- ══ AUTO FIX ══ -->
   <div class="panel" id="panel-autofix">
     <div class="sec-head">
-      <!-- <div class="sec-eye">// POST /auto-fix</div> -->
+      <div class="sec-eye">// POST /auto-fix</div>
       <div class="sec-title">Auto Fix Resume</div>
-      <div class="sec-desc">Upload your resume and a target job description. Our AI will rewrite and optimize it for maximum ATS compatibility.</div>
+      <div class="sec-desc">Upload your resume and a target job description. Llama3 will rewrite and optimize it for maximum ATS compatibility.</div>
     </div>
     <div class="g2">
       <div>
@@ -549,7 +549,7 @@ textarea{min-height:130px;line-height:1.6}
   <!-- ══ MOCK INTERVIEW ══ -->
   <div class="panel" id="panel-interview">
     <div class="sec-head">
-      <!-- <div class="sec-eye">// POST /interview/question · /interview/evaluate</div> -->
+      <div class="sec-eye">// POST /interview/question · /interview/evaluate</div>
       <div class="sec-title">Mock Interview</div>
       <div class="sec-desc">Practice with AI-generated questions for any role. Get scored feedback and model answers after each response.</div>
     </div>
@@ -598,7 +598,7 @@ textarea{min-height:130px;line-height:1.6}
   <!-- ══ CHATBOT ══ -->
   <div class="panel" id="panel-chatbot">
     <div class="sec-head">
-      <!-- <div class="sec-eye">// POST /ai-chat</div> -->
+      <div class="sec-eye">// POST /ai-chat</div>
       <div class="sec-title">AI Career Advisor</div>
       <div class="sec-desc">Chat with your personal AI career mentor. Optionally attach your resume for context-aware advice.</div>
     </div>
