@@ -42,23 +42,29 @@ app.add_middleware(
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 STATIC_DIR = FRONTEND_DIR / "static"
-STATIC_DIR.mkdir(parents=True, exist_ok=True)
-
-# Mount static files only if directory has content (skip on Vercel if empty)
+# Mount static files only if directory exists (skip on Vercel)
 try:
-    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+    if STATIC_DIR.exists():
+        app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 except Exception:
     pass
 # ─────────────────────────────────────────────────────────────────────────────
 
-init_db()
+try:
+    init_db()
+except Exception as e:
+    print(f"[startup] DB init warning: {e}")
 
 # ── Helper: save upload keeping original extension ────────────────────────────
 def save_upload(file_bytes: bytes, original_filename: str) -> str:
     ext = os.path.splitext(original_filename)[-1].lower() or ".pdf"
-    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
-        tmp.write(file_bytes)
-        return tmp.name
+    # Use /tmp — only writable directory on Vercel serverless
+    tmp_dir = tempfile.gettempdir()
+    import time
+    tmp_path = os.path.join(tmp_dir, f"upload_{int(time.time()*1000)}{ext}")
+    with open(tmp_path, "wb") as f:
+        f.write(file_bytes)
+    return tmp_path
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ✅ Step 2: Feedback function
@@ -230,8 +236,9 @@ from backend.utils.pdf_generator import generate_pdf
 @app.post("/download-resume")
 async def download_resume(resume_text: str = Form(...)):
     file_path = generate_pdf(resume_text)
+    is_pdf = file_path.endswith(".pdf")
     return FileResponse(
         file_path,
-        media_type="application/pdf",
-        filename="resume.pdf"
+        media_type="application/pdf" if is_pdf else "text/plain",
+        filename="resume.pdf" if is_pdf else "resume.txt"
     )
