@@ -2,6 +2,9 @@ import sys
 import os
 from pathlib import Path
 
+from fastapi import HTTPException
+import traceback
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI, File, UploadFile, Form
@@ -16,7 +19,7 @@ from backend.utils.roadmap import generate_roadmap
 from backend.utils.resume_improver import improve_resume
 from backend.utils.success_predictor import predict_success
 from backend.utils.ai_chatbot import ai_chatbot
-from backend.utils.memory import save_memory
+from backend.utils.memory import save_memory, create_memory_table
 from backend.utils.db import init_db
 from backend.utils.ats_score import advanced_ats_score
 from backend.utils.ats_score import ats_ai_suggestions
@@ -53,9 +56,7 @@ if STATIC_DIR.exists():
 # ─────────────────────────────────────────────────────────────────────────────
 
 init_db()
-# ─────────────────────────────────────────────────────────────────────────────
-
-init_db()
+create_memory_table()
 
 # ── Helper: save upload keeping original extension ────────────────────────────
 def save_upload(file_bytes: bytes, original_filename: str) -> str:
@@ -138,14 +139,37 @@ async def chat(
     user_id: str = Form("default"),
     file: UploadFile = File(None)
 ):
-    resume_text = ""
-    if file:
-        temp_path = save_upload(await file.read(), file.filename)
-        resume_text = extract_text_from_pdf(temp_path)
+    try:
+        resume_text = ""
 
-    response = ai_chatbot(user_input, resume_text, user_id)
-    save_memory(user_id, user_input, response)
-    return {"response": response}
+        if file:
+            temp_path = save_upload(
+                await file.read(),
+                file.filename
+            )
+            resume_text = extract_text_from_pdf(temp_path)
+
+        response = ai_chatbot(
+            user_input,
+            resume_text,
+            user_id
+        )
+
+        save_memory(
+            user_id,
+            user_input,
+            response
+        )
+
+        return {"response": response}
+
+    except Exception as e:
+        print(traceback.format_exc())
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
 
 # ✅ Auto Fix Route
 @app.post("/auto-fix")
