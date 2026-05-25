@@ -1,9 +1,8 @@
-import sqlite3
+from backend.utils.db import get_connection
 
-DB_NAME = "memory.db"
 
 def save_memory(user_id, question, response):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -14,8 +13,9 @@ def save_memory(user_id, question, response):
     conn.commit()
     conn.close()
 
+
 def get_memory(user_id):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
