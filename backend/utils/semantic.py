@@ -1,10 +1,10 @@
-from sentence_transformers import SentenceTransformer, util
+from difflib import SequenceMatcher
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+def semantic_match(text1, text2):
+    similarity = SequenceMatcher(
+        None,
+        text1.lower(),
+        text2.lower()
+    ).ratio()
 
-def semantic_match(resume_text, job_text):
-    emb1 = model.encode(resume_text, convert_to_tensor=True)
-    emb2 = model.encode(job_text, convert_to_tensor=True)
-
-    score = util.cos_sim(emb1, emb2)
-    return float(score[0][0]) * 100
+    return round(similarity * 100, 2)
