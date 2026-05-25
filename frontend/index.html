@@ -793,7 +793,10 @@ async function runAnalyze() {
 
   try {
     const r = await fetch('/analyze', { method:'POST', body:fd });
-    if (!r.ok) throw new Error('Server error ' + r.status);
+    if (!r.ok) {
+        const errText = await r.text();
+        throw new Error(`${r.status}: ${errText}`);
+    }
     renderAnalyze(await r.json());
     document.getElementById('az-results').classList.remove('hidden');
     document.getElementById('az-results').scrollIntoView({ behavior:'smooth', block:'start' });
@@ -1101,9 +1104,15 @@ async function sendChat() {
     removeTyping();
     addMsg((await r.json()).response || 'No response.', 'ai');
   } catch(e) {
-    removeTyping();
-    addMsg('⚠️ Could not reach AI backend. Make sure the server is running.', 'ai');
-  } finally {
+        removeTyping();
+
+        console.error("Chat Error:", e);
+
+        addMsg(
+            '⚠️ Error: ' + e.message,
+            'ai'
+        );
+    } finally {
     document.getElementById('chat-send').disabled = false;
   }
 }
