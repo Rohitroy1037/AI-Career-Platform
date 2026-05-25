@@ -1,13 +1,25 @@
-# Environment files
+# Environment
 .env
 backend/.env
 
-# Python cache
+# Cache
 __pycache__/
 *.pyc
 
 # Database
 *.db
 
-# PDF files (optional)
+# PDF / uploads
 *.pdf
+uploads/
+
+# Venv
+venv/
+.venv/
+
+# Git
+.git/
+
+# OS files
+.DS_Store
+Thumbs.db
